@@ -1,17 +1,17 @@
 import { useForm } from "react-hook-form";
 import useAuth from "../hook/useAuth";
 
-const Login = () => {
-    const {login}= useAuth();
+const SignUp = () => {
+    const {} = useAuth();
     const { register, handleSubmit } = useForm();
-    const onSubmit = (data) =>{
+    const onSubmit = (data) => {
         console.log(data)
     }
 
     return (
         <div className="h-screen flex items-center justify-center">
             <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-                <h2 className="text-2xl font-bold mb-6 text-center text-gray-700">Login</h2>
+                <h2 className="text-2xl font-bold mb-6 text-center text-gray-700">SignUp</h2>
 
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                     <div className="flex flex-col">
@@ -47,7 +47,7 @@ const Login = () => {
                         type="submit"
                         className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition-colors"
                     >
-                        Login
+                        SignIn
                     </button>
                 </form>
             </div>
@@ -55,4 +55,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default SignUp;

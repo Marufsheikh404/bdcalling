@@ -79,7 +79,7 @@ const Navbar = () => {
             {/* Right side buttons */}
             <div className="navbar-end flex gap-3">
                 <NavLink to={'/login'}><button className="btn bg-[#23BE0A] px-3 text-white">Sign In</button></NavLink>
-                <button className="btn bg-[#59C6D2] px-3 text-white">Sign Up</button>
+               <NavLink to={'/signUp'}><button className="btn bg-[#59C6D2] px-3 text-white">Sign Up</button></NavLink>
             </div>
         </div>
     );
