@@ -5,6 +5,7 @@ import Main from "./Layout/Main";
 import PageToRead from "./pages/PageToRead";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUP";
+import ProtectedRoute from "./ProtectedRoute";
 
 
 const router = createBrowserRouter([
@@ -18,11 +19,11 @@ const router = createBrowserRouter([
          },
          {
             path:'/bookdetails',
-            element:<BookDetails></BookDetails>
+            element:<ProtectedRoute><BookDetails></BookDetails></ProtectedRoute>
          },
          {
             path:'/page',
-            element:<PageToRead></PageToRead>
+            element:<ProtectedRoute><PageToRead></PageToRead></ProtectedRoute>
          },
          {
             path:'/login',

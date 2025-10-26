@@ -1,12 +1,32 @@
 import { useForm } from "react-hook-form";
 import useAuth from "../hook/useAuth";
+import { useLocation, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const Login = () => {
-    const {login}= useAuth();
+    const { login, setLoading } = useAuth();
+    const Navigate = useNavigate();
+    const location = useLocation();
+    const form = location.state?.from?.pathname || '/';
     const { register, handleSubmit } = useForm();
-    const onSubmit = (data) =>{
-        console.log(data)
-    }
+    const onSubmit = (data) => {
+        login(data.email, data.password)
+            .then(result => {
+                console.log(result.user)
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "LogIn Successfully",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                Navigate(form);
+                setLoading(false)
+            })
+            .catch(error => {
+                console.log(error)
+            });
+    };
 
     return (
         <div className="h-screen flex items-center justify-center">

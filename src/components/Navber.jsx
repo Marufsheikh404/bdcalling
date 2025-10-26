@@ -1,15 +1,26 @@
 import { NavLink } from "react-router-dom";
 import useAuth from "../hook/useAuth";
+import Swal from "sweetalert2";
 
 const Navbar = () => {
-    const { user } = useAuth();
+    const { user, LogOut } = useAuth();
+    const handleLogOut = () => {
+        LogOut();
+        Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "LogOut Successfully",
+            showConfirmButton: false,
+            timer: 1500
+        });
+    }
     const links = (
         <>
             <li>
                 <NavLink
                     to="/"
                     className={({ isActive }) =>
-                        isActive ? "text-[#23BE0A] font-semibold" : ""
+                        isActive ? "text-white font-semibold bg-yellow-600" : ""
                     }
                 >
                     Home
@@ -19,7 +30,7 @@ const Navbar = () => {
                 <NavLink
                     to="/bookdetails"
                     className={({ isActive }) =>
-                        isActive ? "text-[#23BE0A] font-semibold" : ""
+                        isActive ? "text-white font-semibold bg-yellow-600" : ""
                     }
                 >
                     Listed Book
@@ -29,7 +40,7 @@ const Navbar = () => {
                 <NavLink
                     to="/page"
                     className={({ isActive }) =>
-                        isActive ? "text-[#23BE0A] font-semibold" : ""
+                        isActive ? "text-white font-semibold bg-yellow-600" : ""
                     }
                 >
                     Page To Read
@@ -74,16 +85,16 @@ const Navbar = () => {
             </div>
 
             {/* Menu for large screens */}
-            <div className="navbar-center hidden lg:flex">
-                <ul className="menu menu-horizontal px-1">{links}</ul>
+            <div className="navbar-center flex lg:flex gap-3">
+                <ul className="menu menu-horizontal px-3">{links}</ul>
             </div>
 
             {/* Right side buttons */}
             <div className="navbar-end flex gap-3">
                 {
-                    user ? <button className="btn bg-slate-400 px-2 font-bold">LogOut</button> :
-                    <> <NavLink to={'/login'}><button className="btn bg-[#23BE0A] px-3 text-white">Sign In</button></NavLink>
-                    <NavLink to={'/signUp'}><button className="btn bg-[#59C6D2] px-3 text-white">Sign Up</button></NavLink></>
+                    user ? <button onClick={handleLogOut} className="btn bg-red-500 px-2 font-bold">LogOut</button> :
+                        <> <NavLink to={'/login'}><button className="btn bg-[#23BE0A] px-3 text-white">Sign In</button></NavLink>
+                            <NavLink to={'/signUp'}><button className="btn bg-[#59C6D2] px-3 text-white">Sign Up</button></NavLink></>
                 }
             </div>
         </div>

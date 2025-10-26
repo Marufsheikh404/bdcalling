@@ -1,22 +1,26 @@
 import { useForm } from "react-hook-form";
 import useAuth from "../hook/useAuth";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const SignUp = () => {
     const nevigate = useNavigate();
-    const {signUp} = useAuth();
+    const { signUp, } = useAuth();
     const { register, handleSubmit } = useForm();
     const onSubmit = (data) => {
-        signUp(data.email,data.password)
-        .then(result =>{
-            const user = result.user;
-            console.log(user);
-            nevigate('/')
-        })
-        .catch(error=>{
-            console.log('error', error);
-        })
-    }
+        const user = data.user;
+        console.log(user); 
+        signUp(data.email, data.password);
+        Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Account Created Successfully!",
+            showConfirmButton: false,
+            timer: 1500
+        });
+
+        nevigate('/'); // ✅ সঠিক বানান
+    };
 
     return (
         <div className="h-screen flex items-center justify-center">
