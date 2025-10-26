@@ -2,30 +2,54 @@ import { useForm } from "react-hook-form";
 import useAuth from "../hook/useAuth";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { auth } from "../firebase/config";
 
 const SignUp = () => {
-    const nevigate = useNavigate();
-    const { signUp, } = useAuth();
+    const navigate = useNavigate();
+    const { signUp, updateP } = useAuth();
     const { register, handleSubmit } = useForm();
-    const onSubmit = (data) => {
-        const user = data.user;
-        console.log(user); 
-        signUp(data.email, data.password);
-        Swal.fire({
-            position: "top-end",
-            icon: "success",
-            title: "Account Created Successfully!",
-            showConfirmButton: false,
-            timer: 1500
-        });
 
-        nevigate('/'); // ✅ সঠিক বানান
+    const onSubmit = async (data) => {
+        try {
+            // 🔹 1. Create User
+            const userCredential = await signUp(data.email, data.password);
+            const user = userCredential.user;
+            console.log(user);
+
+            // 🔹 2. Update Display Name
+            await updateP(data.firstName); // তুমি form-এ firstName ব্যবহার করছো, তাই এটিই ঠিক
+
+            // 🔹 3. Refresh current user info
+            await user.reload();
+
+            console.log("Updated Name:", auth.currentUser.displayName); // ✅ এখন name দেখাবে
+
+            // 🔹 4. Success alert
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Account Created Successfully!",
+                showConfirmButton: false,
+                timer: 1500
+            });
+
+            navigate("/");
+
+        } catch (error) {
+            console.error("Signup Error:", error.message);
+            Swal.fire({
+                icon: "error",
+                title: "Signup Failed",
+                text: error.message,
+            });
+        }
     };
 
+    // ✅ return এখন function-এর ভেতরে
     return (
         <div className="h-screen flex items-center justify-center">
             <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-                <h2 className="text-2xl font-bold mb-6 text-center text-gray-700">SignUp</h2>
+                <h2 className="text-2xl font-bold mb-6 text-center text-gray-700">Sign Up</h2>
 
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                     <div className="flex flex-col">
@@ -61,7 +85,7 @@ const SignUp = () => {
                         type="submit"
                         className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition-colors"
                     >
-                        SignIn
+                        Sign Up
                     </button>
                 </form>
             </div>
