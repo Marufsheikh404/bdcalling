@@ -21,9 +21,6 @@ const SignUp = () => {
 
             // 🔹 3. Refresh current user info
             await user.reload();
-
-            console.log("Updated Name:", auth.currentUser.displayName); // ✅ এখন name দেখাবে
-
             // 🔹 4. Success alert
             Swal.fire({
                 position: "top-end",
@@ -32,9 +29,7 @@ const SignUp = () => {
                 showConfirmButton: false,
                 timer: 1500
             });
-
             navigate("/");
-
         } catch (error) {
             console.error("Signup Error:", error.message);
             Swal.fire({
